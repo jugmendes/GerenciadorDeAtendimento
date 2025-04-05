@@ -27,6 +27,7 @@ public class Caixa {
                     System.out.println("Finalizado atendimento: " + finalCliente.getNome());
                     synchronized (this) {
                         clientesAtendidos++;
+                        exibirStatus();
                     }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -36,11 +37,16 @@ public class Caixa {
             thread.start();
 
             try {
-                thread.join(); 
+                thread.join();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    public synchronized void exibirStatus() {
+        System.out.println("Clientes atendidos: " + clientesAtendidos);
+        System.out.println("Clientes aguardando: " + filaClientes.size());
     }
 
     public synchronized int getClientesAtendidos() {
